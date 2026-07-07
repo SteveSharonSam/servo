@@ -917,7 +917,7 @@ impl DocumentEventHandler {
         // UIEvent.detail: indicates the current click count incremented by one. For
         // example, if no click happened before the mousedown, detail will contain
         // the value 1
-        if event.action == MouseButtonAction::Down {
+        if event.action == MouseButtonAction::Down || event.action == MouseButtonAction::Up {
             self.click_counting_info
                 .borrow_mut()
                 .reset_click_count_if_necessary(event.button, hit_test_result.point_in_frame);
@@ -1154,7 +1154,6 @@ impl DocumentEventHandler {
                 self.most_recently_clicked_element.set(Some(element));
 
                 let click_count = self.click_counting_info.borrow().count;
-
                 // target set to "_blank" so that middle click opens link in new tab
                 element.set_string_attribute(cx, &local_name!("target"), DOMString::from("_blank"));
 
